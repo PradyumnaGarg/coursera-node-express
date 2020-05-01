@@ -6,6 +6,8 @@ const Port = 3000;
 
 const app = express();
 
+app.use(express.static(__dirname + '/public'));
+
 app.use((req, res, next)=>{
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
