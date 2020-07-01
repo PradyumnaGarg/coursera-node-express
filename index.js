@@ -1,22 +1,30 @@
-const express = require('express');
-const http = require('http');
-const bodyParser = require('body-parser');
-const dishRouter = require('./routes/dishRouter');
-const promoRouter = require('./routes/promoRouter');
-const leaderRouter = require('./routes/leaderRouter');
-const hostname = "localhost";
-const Port = 3000;
+var express = require('express');
+var http = require('http');
+var DishRouter = require('./routes/dishRouter');
+var PromoRouter = require('./routes/promoRouter');
+var LeaderRouter = require('./routes/leaderRouter');
 
-const app = express();
-app.use(bodyParser.json());
+var port = 3000;
+var hostname = 'localhost';
+
+var app = express();
+
 app.use(express.static(__dirname + '/public'));
 
-app.use('/dishes', dishRouter);
-app.use('/promotions', promoRouter);
-app.use('/leaders', leaderRouter);
+app.use('/dishes', DishRouter.dishRouter);
+app.use('/dishes/:dishId', DishRouter.dishIDRouter);
 
-const server = http.createServer(app);
+app.use('/promotions', PromoRouter.promoRouter);
+app.use('/promotions/:promoId', PromoRouter.promoIDRouter);
 
-server.listen(Port, hostname, ()=> {
-    console.log(`Server is running at http://${hostname}:${Port}`);
+app.use('/leaders', LeaderRouter.leaderRouter);
+app.use('/leaders/:leaderId', LeaderRouter.leaderIDRouter);
+
+
+
+var server = http.createServer(app);
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`)
 })
+
